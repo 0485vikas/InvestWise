@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>InvestWise Tools</title>
+  <style>
+    :root,[data-theme="light"]{--bg:#f6f5f1;--surface:#fffdf8;--surface2:#f4f1ea;--border:#d8d3c7;--text:#26231c;--muted:#716d64;--primary:#0d6b72;--primary2:#e4f1ef;--shadow:0 10px 30px rgba(0,0,0,.08);--r:18px;--r2:14px;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+    [data-theme="dark"]{--bg:#161514;--surface:#1d1b19;--surface2:#23211e;--border:#3a3731;--text:#e8e3db;--muted:#a7a197;--primary:#5fb7bf;--primary2:#203236;--shadow:0 16px 40px rgba(0,0,0,.35)}
+    *{box-sizing:border-box} body{margin:0;background:linear-gradient(180deg,var(--bg),var(--surface));color:var(--text)}
+    .wrap{max-width:1200px;margin:0 auto;padding:16px} .top{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:16px;border:1px solid var(--border);background:var(--surface);border-radius:var(--r);box-shadow:var(--shadow);margin-bottom:16px}
+    h1,h2,p{margin:0} h1{font-size:clamp(22px,3vw,34px)} .sub{color:var(--muted);margin-top:4px;font-size:14px}
+    .grid{display:grid;grid-template-columns:1fr;gap:16px}@media(min-width:960px){.grid{grid-template-columns:1fr 1fr}}
+    .card{border:1px solid var(--border);background:var(--surface);border-radius:var(--r);box-shadow:var(--shadow);padding:16px}
+    .section-title{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
+    .pill{display:inline-flex;align-items:center;padding:5px 10px;border-radius:999px;background:var(--primary2);color:var(--text);font-size:12px;font-weight:700}
+    .field{margin-top:12px}.field label{display:block;font-size:13px;font-weight:700;margin-bottom:6px}.field input,.field select{width:100%;padding:13px 14px;border-radius:12px;border:1px solid var(--border);background:var(--surface2);color:var(--text);font-size:15px;appearance:none;-webkit-appearance:none;-moz-appearance:none;box-shadow:inset 0 1px 0 rgba(255,255,255,.04)}
+    .field select{background-image:linear-gradient(45deg,transparent 50%,var(--muted) 50%),linear-gradient(135deg,var(--muted) 50%,transparent 50%),linear-gradient(to right,transparent,transparent);background-position:calc(100% - 20px) calc(1em + 2px),calc(100% - 15px) calc(1em + 2px),100% 0;background-size:5px 5px,5px 5px,2.5em 2.5em;background-repeat:no-repeat;padding-right:42px}
+    .btn{width:100%;padding:14px;border:0;border-radius:12px;background:var(--primary);color:#fff;font-weight:800;font-size:15px;margin-top:12px;cursor:pointer}
+    .btn.secondary{background:transparent;color:var(--text);border:1px solid var(--border)}
+    .result{margin-top:14px;padding:14px;border-radius:14px;background:var(--primary2);border:1px solid color-mix(in oklab,var(--primary) 18%, transparent)}
+    .result b{display:block;margin-bottom:6px} .big{font-size:28px;font-weight:900;letter-spacing:-.03em} .muted{color:var(--muted);font-size:13px;margin-top:6px;line-height:1.45}
+    .table{width:100%;border-collapse:collapse;font-size:13px;margin-top:10px;overflow:hidden} .table th,.table td{padding:10px;border-bottom:1px solid var(--border);text-align:left;vertical-align:top} .table th{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.04em}
+    .split{display:grid;grid-template-columns:1fr 1fr;gap:10px}@media(max-width:700px){.split{grid-template-columns:1fr}}
+    .banner{position:sticky;top:0;z-index:999;background:#ffd54f;color:#111;padding:10px 14px;font-weight:800;text-align:center;border-bottom:1px solid #c8a500;margin-bottom:12px}
+    .mini{font-size:12px;color:var(--muted)} .totalrow{font-weight:800;background:color-mix(in oklab,var(--primary2) 70%, transparent)}
+  </style>
+</head>
+<body>
+<div class="banner">UPDATED UI READY — TABLE-BASED FEATURE 2</div>
+<div class="wrap">
+  <header class="top">
+    <div>
+      <h1>InvestWise Tools</h1>
+      <p class="sub">Age-based recommended amount + manual planned amounts + total return and asset-wise returns</p>
+    </div>
+    <button class="btn secondary" id="themeBtn" style="width:auto;margin-top:0">Toggle theme</button>
+  </header>
+
+  <div class="grid">
+    <section class="card">
+      <div class="section-title"><h2>Feature 1: DoubleeDouble</h2><span class="pill">Rule of 72</span></div>
+      <div class="field"><label>Enter Amount</label><input id="dd_amount" type="number" step="0.01" placeholder="100000"></div>
+      <div class="field">
+        <label>Calculation Mode</label>
+        <select id="dd_mode" aria-label="Calculation Mode">
+          <option value="" selected>Calculation Mode</option>
+          <option value="rate">Expected returns — find time to double</option>
+          <option value="time">Time period — find required return</option>
+        </select>
+      </div>
+      <div class="field" id="dd_rate_wrap" style="display:none;">
+        <label>Expected %age Returns</label>
+        <input id="dd_rate" type="number" step="0.01" placeholder="12">
+      </div>
+      <div class="field" id="dd_years_wrap" style="display:none;">
+        <label>Time Period (years)</label>
+        <input id="dd_years" type="number" step="0.01" placeholder="6">
+      </div>
+      <div class="mini" style="font-weight:700;">Pick one mode from the dropdown above to show the matching input and result.</div>
+      <button class="btn" id="dd_calc">Calculate</button>
+      <div class="result"><b>Result</b><div class="big" id="dd_out">—</div><div class="muted" id="dd_sub">Enter amount and either return or time period.</div></div>
+    </section>
+
+    <section class="card">
+      <div class="section-title"><h2>Feature 2: Wise-With-Money-Lumpsum</h2><span class="pill">Table input</span></div>
+      <div class="split">
+        <div class="field"><label>Age</label><input id="age" type="number" step="1" placeholder="34"></div>
+        <div class="field"><label>Total Lumpsum</label><input id="lumpsum" type="number" step="0.01" placeholder="500000"></div>
+      </div>
+      <div class="field"><label>Holding Period (years)</label><input id="period" type="number" step="0.01" placeholder="10"></div>
+      <button class="btn secondary" id="calc">Calculate Portfolio Returns</button>
+      <div class="result"><b>Portfolio Summary</b><div class="big" id="sum_out">—</div><div class="muted" id="sum_sub">Enter age, lumpsum and planned amounts in the table below.</div></div>
+      <table class="table">
+        <thead><tr><th>Asset</th><th>Expected Return</th><th>Age-based recommended amount</th><th>Planned Investment</th><th>Future Value</th></tr></thead>
+        <tbody id="tbl"></tbody>
+        <tbody id="totalRow"></tbody>
+      </table>
+      <div class="mini">Recommended amount is based on age and total lumpsum, not percentage. Planned investments are entered directly inside the table.</div>
+    </section>
+  </div>
+</div>
+<script>
+const assets=[
+  {n:'Commodity (Gold/Silver)',r:5,p:[5,5,8]},
+  {n:'FD',r:6,p:[5,7,10]},
+  {n:'PPF',r:7,p:[10,12,12]},
+  {n:'PF/Sukanya etc',r:8,p:[10,10,10]},
+  {n:'Real Estate',r:9,p:[10,10,10]},
+  {n:'NPS',r:10,p:[15,18,20]},
+  {n:'Mutual Funds',r:12,p:[20,18,15]},
+  {n:'Direct Stocks',r:14,p:[15,10,7]},
+  {n:'Business + PMS',r:18,p:[5,5,4]},
+  {n:'Business',r:24,p:[5,5,4]}
+];
+const fmt=v=>new Intl.NumberFormat('en-IN',{style:'currency',currency:'INR',maximumFractionDigits:0}).format(v||0);
+const ageBand=a=>a<30?0:a<45?1:2;
+const ageWeights=a=>assets.map(x=>x.p[ageBand(a||30)]);
+const tbl=document.getElementById('tbl'), totalRow=document.getElementById('totalRow');
+function recalc(){
+  const age=Number(document.getElementById('age').value)||30;
+  const lumpsum=Number(document.getElementById('lumpsum').value)||0;
+  const period=Number(document.getElementById('period').value)||0;
+  const weights=ageWeights(age);
+  const rows=[...tbl.querySelectorAll('tr')];
+  let total=0,totalFV=0,totalWeightedReturn=0;
+  rows.forEach((tr,i)=>{
+    const asset=assets[i];
+    const rec=lumpsum>0 ? lumpsum*weights[i]/100 : 0;
+    const input=tr.querySelector('input[data-name]');
+    const raw=input.value.trim();
+    const manual=raw==='' ? NaN : Number(raw);
+    const effective=!Number.isNaN(manual) ? manual : rec;
+    const fv=effective>0 && period>0 ? effective*Math.pow(1+asset.r/100, period) : 0;
+    tr.querySelector('[data-fv]').textContent = effective>0 ? fmt(fv) : '—';
+    total += effective;
+    totalFV += fv;
+    totalWeightedReturn += effective * asset.r;
+  });
+  const blendedReturn = total>0 ? totalWeightedReturn/total : 0;
+  document.getElementById('sum_out').textContent = `${fmt(total)} / ${fmt(lumpsum)}`;
+  const delta = lumpsum-total;
+  document.getElementById('sum_sub').innerHTML = total===lumpsum ? 'Allocation matches total lumpsum.' : `${fmt(Math.abs(delta))} difference. <button id="adjustBtn" class="btn secondary" style="width:auto;padding:8px 12px;margin-left:8px;display:inline-block;">Adjust Difference</button>`;
+  totalRow.innerHTML = `<tr class="totalrow"><td>Total</td><td>${blendedReturn.toFixed(2)}%</td><td>${fmt(lumpsum)}</td><td>${fmt(total)}</td><td>${fmt(totalFV)}</td></tr>`;
+  const btn=document.getElementById('adjustBtn');
+  if(btn) btn.onclick=()=>adjustDifference(delta);
+}
+function adjustDifference(delta){
+  const age=Number(document.getElementById('age').value)||30;
+  const names=assets.map(a=>a.n);
+  const weights=ageWeights(age);
+  let idx = delta>0 ? weights.indexOf(Math.max(...weights)) : weights.indexOf(Math.min(...weights));
+  if(idx<0) idx=0;
+  const inp=document.querySelector(`input[data-name="${names[idx]}"]`);
+  const current=Number(inp.value)||0;
+  inp.value = Math.max(0, current + delta).toFixed(2);
+  recalc();
+}
+function renderAssets(){
+  const age=Number(document.getElementById('age').value)||30;
+  const lumpsum=Number(document.getElementById('lumpsum').value)||0;
+  const weights=ageWeights(age);
+  tbl.innerHTML='';
+  assets.forEach((x,i)=>{
+    const rec=lumpsum>0 ? lumpsum*weights[i]/100 : 0;
+    const tr=document.createElement('tr');
+    tr.innerHTML=`<td>${x.n}</td><td>${x.r}%</td><td>${fmt(rec)}</td><td><input data-name="${x.n}" type="number" min="0" step="0.01" placeholder="" value="" style="width:100%;padding:10px;border-radius:12px;border:1px solid var(--border);background:var(--surface2);color:var(--text);"></td><td data-fv>—</td>`;
+    const input=tr.querySelector('input[data-name]');
+    input.oninput=()=>{
+      const rawVal = input.value.trim();
+      const currentValue = rawVal==='' ? NaN : Number(rawVal);
+      const recAmount = lumpsum>0 ? lumpsum*weights[i]/100 : 0;
+      const vals=[...tbl.querySelectorAll('input[data-name]')].map(el=>Number(el.value)||0);
+      const total=vals.reduce((s,v)=>s+v,0);
+      recalc();
+      let messages=[];
+      if(!Number.isNaN(currentValue) && recAmount>0 && currentValue !== recAmount){
+        messages.push(`For ${x.n}, planned amount differs from recommended by ${fmt(currentValue-recAmount)}.`);
+      }
+      if(lumpsum>0 && total !== lumpsum){
+        messages.push(`Portfolio differs from lumpsum by ${fmt(total-lumpsum)}.`);
+      }
+      if(messages.length){
+        alert(messages.join('\n'));
+      }
+    };
+    tbl.appendChild(tr);
+  });
+  recalc();
+}
+document.getElementById('calc').onclick=()=>{ renderAssets(); recalc(); };
+document.getElementById('age').oninput=renderAssets; document.getElementById('lumpsum').oninput=renderAssets; document.getElementById('period').oninput=renderAssets;
+const ddMode = document.getElementById('dd_mode');
+const ddRateWrap = document.getElementById('dd_rate_wrap');
+const ddYearsWrap = document.getElementById('dd_years_wrap');
+ddMode.onchange = ()=>{
+  if(ddMode.value==='rate'){ ddRateWrap.style.display='block'; ddYearsWrap.style.display='none'; dd_years.value=''; }
+  else if(ddMode.value==='time'){ ddRateWrap.style.display='none'; ddYearsWrap.style.display='block'; dd_rate.value=''; }
+  else { ddRateWrap.style.display='none'; ddYearsWrap.style.display='none'; dd_rate.value=''; dd_years.value=''; }
+};
+document.getElementById('dd_calc').onclick=()=>{
+  const a=Number(dd_amount.value);
+  const mode=ddMode.value;
+  const r=Number(dd_rate.value);
+  const y=Number(dd_years.value);
+  if(!a||a<=0){ dd_out.textContent='Enter valid amount'; return; }
+  if(mode==='rate'){
+    if(!r||r<=0){ dd_out.textContent='Enter valid return %'; dd_sub.textContent='Choose Expected returns and enter a value.'; return; }
+    dd_out.textContent=(72/r).toFixed(2)+' years';
+    dd_sub.textContent=`${fmt(a)} may double to ${fmt(a*2)} at ${r}% (Rule of 72).`;
+    return;
+  }
+  if(mode==='time'){
+    if(!y||y<=0){ dd_out.textContent='Enter valid time period'; dd_sub.textContent='Choose Time period and enter a value.'; return; }
+    dd_out.textContent=(72/y).toFixed(2)+'%';
+    dd_sub.textContent=`Need roughly ${(72/y).toFixed(2)}% annual return to double ${fmt(a)} in ${y} years.`;
+    return;
+  }
+  dd_out.textContent='Calculation Mode';
+  dd_sub.textContent='Open the dropdown and select one of the two options.';
+};
+document.getElementById('themeBtn').onclick=()=>{document.documentElement.dataset.theme=document.documentElement.dataset.theme==='dark'?'light':'dark'};
+renderAssets();
+</script>
+</body>
+</html>
